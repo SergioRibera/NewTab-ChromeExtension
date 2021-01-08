@@ -6,21 +6,20 @@ directory never while use the extension
 ```
 git clone https://github.com/SergioRibera/NewTab-ChromeExtension.git
 ```
-2.- The next step, open your browser and go to extensions (In my case is Brave)
-![Go to Extension](https://raw.githubusercontent.com/SergioRibera/NewTab-ChromeExtension/main/screenshots/01.png)
+2.- The next step, open your browser and go to extensions (In my case is Brave)<br/>
+![Go to Extension](https://raw.githubusercontent.com/SergioRibera/NewTab-ChromeExtension/main/screenshots/01.png)<br/>
+3.- Now you have enable the Developer Mode<br/>
+![Active Developer Mode](https://raw.githubusercontent.com/SergioRibera/NewTab-ChromeExtension/main/screenshots/02.png)<br/>
+4.- Load Extension<br/>
+![Load Extension](https://raw.githubusercontent.com/SergioRibera/NewTab-ChromeExtension/main/screenshots/03.png)<br/>
+5.- Select Folder contain<br/>
+![Select Folder](https://raw.githubusercontent.com/SergioRibera/NewTab-ChromeExtension/main/screenshots/04.png)<br/>
+6.- Enable Extension<br/>
+![Enable Extension](https://raw.githubusercontent.com/SergioRibera/NewTab-ChromeExtension/main/screenshots/05.png)<br/>
+7.- Congratulations<br/>
+![Finish](https://raw.githubusercontent.com/SergioRibera/NewTab-ChromeExtension/main/screenshots/06.png)<br/>
 
-3.- Now you have enable the Developer Mode
-![Active Developer Mode](https://raw.githubusercontent.com/SergioRibera/NewTab-ChromeExtension/main/screenshots/02.png)
-4.- Load Extension
-![Load Extension](https://raw.githubusercontent.com/SergioRibera/NewTab-ChromeExtension/main/screenshots/03.png)
-5.- Select Folder contain
-![Select Folder](https://raw.githubusercontent.com/SergioRibera/NewTab-ChromeExtension/main/screenshots/04.png)
-6.- Enable Extension
-![Enable Extension](https://raw.githubusercontent.com/SergioRibera/NewTab-ChromeExtension/main/screenshots/05.png)
-7.- Congratulations
-![Finish](https://raw.githubusercontent.com/SergioRibera/NewTab-ChromeExtension/main/screenshots/06.png)
-
-### **Please report all bugs and problems**
+## **Please report all bugs and problems**
 
 Thanks for install this tool, for see more visit [my
 web](https://sergioribera.com) (Very soon I will add an app store)
