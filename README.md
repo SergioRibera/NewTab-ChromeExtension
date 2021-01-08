@@ -18,6 +18,16 @@ git clone https://github.com/SergioRibera/NewTab-ChromeExtension.git
 ![Enable Extension](https://raw.githubusercontent.com/SergioRibera/NewTab-ChromeExtension/main/screenshots/05.png)<br/>
 7.- Congratulations<br/>
 ![Finish](https://raw.githubusercontent.com/SergioRibera/NewTab-ChromeExtension/main/screenshots/06.png)<br/>
+## To do
+- [x] Add Clock
+- [x] Make Customizable Clock
+- [x] Make background customizable
+- [x] Add First image API to daily images
+- [ ] Implements webhook listen (github, gitlab, etc)
+- [ ] Make ToDo system with notifications
+- [ ] Implement email listener
+- [ ] Implement an organization application such as Trello, Google ToDo
+- [ ] More Ideas
 
 ## **Please report all bugs and problems**
 
