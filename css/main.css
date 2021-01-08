@@ -1,0 +1,85 @@
+:root{
+    --color-text: #999;
+    --color-clock: #ccc;
+    --background-general: #000;
+    --background-effect: none;
+    --font-clock: "verdana";
+    --font-size-clock: 60pt;
+    --pos-clock-horizontal: center;
+    --pos-clock-vertical: center;
+}
+::-webkit-scrollbar {
+    width: 5px;
+    height: 0px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+html, body {
+    /*overflow: hidden;*/
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    background: transparent;
+    box-sizing: border-box;
+}
+
+body {
+    font-size: 18px;
+    line-height: 1.5;
+    font-family: var(--font-clock);
+    font-weight: 100;
+    color: #999;
+    background: var(--background-general);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    backdrop-filter: var(--background-effect);
+}
+.open-settings{
+    align-items: flex-end;
+    justify-content: flex-end;
+    text-transform: uppercase;
+}
+.open-settings span{ padding-right: 15px; }
+.flex{
+    position: fixed;
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+.flex-clock{
+    align-items: var(--pos-clock-vertical);
+    justify-content: var(--pos-clock-horizontal);
+}
+.flex-container{
+    align-items: flex-start;
+    justify-content: center;
+}
+
+#clock {
+    position: relative;
+    margin: 10px 0;
+    color: var(--color-clock);
+    font-size: var(--font-size-clock);
+    line-height: 1.0;
+    text-align: center;
+}

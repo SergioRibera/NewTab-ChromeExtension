@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=1000">
+        <title>New tab</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap"
+            rel="stylesheet">
+        <link rel="stylesheet" href="css/main.css"/>
+        <link rel="stylesheet" href="css/slidepanel.css">
+        <link rel="stylesheet" href="css/select.css">
+    </head>
+    <body>
+        <div id="mySidepanel" class="sidepanel" style="width:
+            0px;padding-right:0px;">
+            <h2>Settings</h2>
+            <div class="el">
+                <h2>Background</h2>
+                <!-- Booleans -->
+                <div class="container">
+                    <span>Background Blur</span>
+                    <label class="el switch">
+                        <input id="blur" type="checkbox">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <div class="container">
+                    <span>Use Color</span>
+                    <label class="el switch">
+                        <input id="useColor" type="checkbox">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <div class="container">
+                    <span>Use NASA Image</span>
+                    <label class="el switch">
+                        <input id="useNASA" type="checkbox">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <div class="container">
+                    <span>Use Custom Image</span>
+                    <label class="el switch">
+                        <input id="useCustomIMG" type="checkbox">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <!-- Input Fields -->
+                <div class="container">
+                    <span>Use Color</span>
+                    <div class="el">
+                        <input id="bg-color" type="text" placeholder="#ffffff" value="#313131">
+                    </div>
+                </div>
+                <div class="container">
+                    <span>Custom Image Path</span>
+                    <div class="el">
+                        <input id="bg-cimage" type="text" placeholder="~/Descargas/BomnitaImagen.png">
+                    </div>
+                </div>
+            </div>
+            <div class="el">
+                <h2>Clock</h2>
+                <div class="container">
+                    <span>Font</span>
+                    <div class="el">
+                        <input id="clock-font" type="text"
+                        placeholder="Montserrat" value="Monserrat">
+                    </div>
+                </div>
+                <div class="container">
+                    <span>Clock Color</span>
+                    <div class="el">
+                        <input id="clock-color" type="text" placeholder="#ffffff" value="#ccc">
+                    </div>
+                </div>
+
+                <div class="container">
+                    <span>Size</span>
+                    <div class="el">
+                        <input id="clock-size" type="text" placeholder="120pt"
+                        value="60pt">
+                    </div>
+                </div>
+                <div class="container">
+                    <span>Position Horizontal</span>
+                    <div class="el">
+                        <select id="clock-h" class="custom-select">
+                            <option value="flex-start">Left</option>
+                            <option value="center">Center</option>
+                            <option value="flex-end">Rigth</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="container">
+                    <span>Position Vertical</span>
+                    <div class="el">
+                        <select id="clock-v" class="custom-select">
+                            <option value="flex-start">Top</option>
+                            <option value="center">Center</option>
+                            <option value="flex-end">Bottom</option>
+                        </select>
+
+                    </div>
+                </div>
+            </div>
+            <button id="refresh-prs-btn">Reset Settings</button>
+        </div>
+        <div class="flex flex-clock">
+            <div>
+                <h1 id="clock">00:00</h1>
+            </div>
+        </div>
+        <div class="flex open-settings">
+            <span class="UpperCase">alt + shift + s</span>
+        </div>
+        <script src="tab.js"></script>
+    </body>
+</html>

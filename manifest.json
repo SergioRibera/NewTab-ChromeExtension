@@ -1,0 +1,32 @@
+{
+  "name": "New Tab",
+  "author": "Sergio Ribera",
+  "homepage_url": "https://github.com/SergioRibera/NewTab-ChromeExtension",
+  "version": "1.0",
+  "description": "This is a Amazing New Tab Extension",
+  "permissions": [
+      "http://*/*",
+      "https://*/*",
+      "activeTab",
+      "management",
+      "storage"
+  ],
+  "chrome_url_overrides": {
+      "newtab": "newtab.html"
+  },
+  "commands": {
+      "open-close": {
+        "suggested_key": {
+            "default": "Alt+Shift+S"
+        },
+        "description": "Open Or Close Settings Menu"
+      }
+  },
+  "icons": {
+    "16": "images/get_started16.png",
+    "32": "images/get_started32.png",
+    "48": "images/get_started48.png",
+    "128": "images/get_started128.png"
+  },
+  "manifest_version": 2
+}

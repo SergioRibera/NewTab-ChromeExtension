@@ -1,0 +1,115 @@
+/* The sidepanel menu */
+.sidepanel {
+    height: 100%; /* Specify a height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0;
+    left: 0;
+    background-color: #111; /* Black*/
+    overflow-y: scroll;
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidepanel */
+}
+.sidepanel h2{ text-align: center; font-size: 32px; color: white; }
+.el .container { display: inline-flex;justify-content: space-between;width: 100%;align-items:center; }
+.el h2 { font-size: 22px; text-align: left; }
+.sidepanel .el { padding: 8px 8px 8px 32px; font-size: 20px; }
+.sidepanel button {
+    cursor: pointer;
+    display: flex;
+    margin: 15px auto;
+    padding: 5px;
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+}
+.sidepanel button:hover, .sidepanel button:focus{
+    outline: none;
+    background-color: white;
+    color: #111;
+}
+.el input[type="text"], .el textarea{
+    max-width: 120px;
+    background-color: transparent;
+    border: none;
+    color: #ccc;
+    border-bottom: 1px solid #ccc;
+}
+.el input[type="text"]:focus, .el textarea:focus{
+    outline: none;
+    border: none;
+    color: #fff;
+    border-bottom: 1px solid #fff;
+}
+.sidepanel a, .sidepanel span {
+    color: #f1f1f1;
+    text-decoration: none;
+    display: block;
+    transition: 0.3s;
+}
+
+.switch {
+    margin-left: 15px;
+    margin-top: 5px;
+    position: relative;
+    display: inline-block;
+    width: 5px;
+    height: 3px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 1px solid #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 12px;
+    width: 12px;
+    left: 2px;
+    bottom: 3px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #ccc;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #ccc;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+    background-color: #111;
+}
+
+/* Rounded sliders
+ * */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
