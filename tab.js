@@ -189,9 +189,11 @@ function ActiveModal(){
             settings = result.conf;
         else
             SaveData();
-    if(settings.BG.useNASA == true)
+    if(settings.BG.useNASA)
         UseNASA();
-    else if(settings.BG.useColor)
+    else if(settings.BG.useCustomIMG)
+        ChangeProp('--background-general', settings.BG.customIMG);
+    else
         ChangeProp('--background-general', settings.BG.color);
     ChangeProp('--color-clock', settings.CLOCK.color)
     ChangeProp('--font-clock', settings.CLOCK.font);
