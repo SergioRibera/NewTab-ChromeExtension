@@ -11,24 +11,10 @@
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidepanel */
 }
 .sidepanel h2{ text-align: center; font-size: 32px; color: white; }
-.el .container { display: inline-flex;justify-content: space-between;width: 100%;align-items:center; }
+.container { display: inline-flex;justify-content: space-between;width: 100%;align-items:center; }
 .el h2 { font-size: 22px; text-align: left; }
-.sidepanel .el { padding: 8px 8px 8px 32px; font-size: 20px; }
-.sidepanel button {
-    cursor: pointer;
-    display: flex;
-    margin: 15px auto;
-    padding: 5px;
-    background-color: transparent;
-    color: white;
-    border: 1px solid white;
-}
-.sidepanel button:hover, .sidepanel button:focus{
-    outline: none;
-    background-color: white;
-    color: #111;
-}
-.el input[type="text"], .el textarea{
+.el { padding: 8px 8px 8px 32px; font-size: 20px; }
+input[type="text"], textarea{
     max-width: 120px;
     background-color: transparent;
     border: none;

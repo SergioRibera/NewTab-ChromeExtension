@@ -62,6 +62,14 @@ let settings = {
             h: "center",
             v: "center"
         }
+    },
+    BOOKSMARK: {
+        pointOfAction: 80,
+        timeAnimation: ".5s",
+        position: 'r', 
+        color: "#ffffff4d",
+        blur: true,
+        list: []
     }
 };
 function ResetSettings(){
@@ -90,10 +98,81 @@ function UseNASA(){
 function ChangeProp (name, value){
     document.documentElement.style.setProperty(name, value);
 }
+function ConfigureSC(sc, sets){
+    switch(sets.BOOKSMARK.position){
+        case 'b':
+            sc.style = "transform: translateY(1000px)";
+            ChangeProp("--pos-sc-horizontal", 'center');
+            ChangeProp("--pos-sc-vertical", 'flex-end');
+            break;
+        case 't':
+            sc.style = "transform: translateY(-1000px)";
+            ChangeProp("--pos-sc-horizontal", 'center');
+            ChangeProp("--pos-sc-vertical", 'flex-start');
+            break;
+        case 'l':
+            sc.style = "transform: translateX(-1000px)";
+            ChangeProp("--pos-sc-horizontal", 'flex-start');
+            ChangeProp("--pos-sc-vertical", 'center');
+            break;
+        case 'r':
+            sc.style = "transform: translateX(1000px)";
+            ChangeProp("--pos-sc-horizontal", 'flex-end');
+            ChangeProp("--pos-sc-vertical", 'center');
+            break;
+    }
+    if(sets.BOOKSMARK.position == 'b' || sets.BOOKSMARK.position == 't')
+        ChangeProp("--orientation-sc", 'row wrap');
+    else
+        ChangeProp("--orientation-sc", 'column wrap');
+    ChangeProp('--color-sc', sets.BOOKSMARK.color);
+    ChangeProp('--sc-effect', sets.BOOKSMARK.blur ? 'blur(3px)':'none');
+    ChangeProp('--animation-duration-sc', sets.BOOKSMARK.timeAnimation);
+}
+function AddSC(){
+
+}
+function EditSC(n){
+    let nName = document.getElementById('modal-name');
+    let nUrl = document.getElementById('modal-url');
+    let nUrlIcon = document.getElementById('modal-icon');
+    let nUseName = document.getElementById('modal-useName');
+    let nUseIcon = document.getElementById('modal-useIcon');
+
+    let sc = settings.BOOKSMARK.list[n];
+    nName.value = sc.name;
+    nUrl.value = sc.url;
+    nUrlIcon.value = sc.urlIcon;
+    nUseName.checked = sc.useName;
+    nUseIcon.checked = sc.useIcon;
+    let btnAceptModal = document.getElementById('modal-acept');
+    btnAceptModal.onclick = function(){
+        let newMark = {
+            name: nName.value,
+            url: nUrl.value,
+            urlIcon: nUrlIcon.value,
+            useName: nUseName.checked,
+            useIcon: nUseIcon.checked
+        };
+        settings.BOOKSMARK.list[n] = newMark;
+        nName.value = "";
+        nUrl.value = "";
+        nUrlIcon.value = "";
+        nUseName.checked = false;
+        nUseIcon.checked = false;
+        SaveData();
+        window.location.reload();
+    }
+    document.getElementById('modal').style.display = 'block';
+}
+function ActiveModal(){
+    document.getElementById('modal').style.display = 'block';
+}
 (function() {
     document.getElementById('refresh-prs-btn').onclick = function() {
         ResetSettings();
     };
+    document.addEventListener('contextmenu', e => e.preventDefault());
     chrome.storage.local.get('conf', result => {
         if(result.conf)
             settings = result.conf;
@@ -108,7 +187,8 @@ function ChangeProp (name, value){
         ChangeProp('--font-size-clock', settings.CLOCK.size);
         ChangeProp('--pos-clock-vertical', settings.CLOCK.pos.v);
         ChangeProp('--pos-clock-horizontal', settings.CLOCK.pos.h);
-
+        let shortcutsList = document.getElementById('shortcuts');
+        ConfigureSC(shortcutsList, settings);
 
         let inBlur = document.getElementById('blur');
         let inUseColor = document.getElementById('useColor');
@@ -122,6 +202,24 @@ function ChangeProp (name, value){
         let inCSize = document.getElementById('clock-size');
         let inCPosH = document.getElementById('clock-h');
         let inCPosV = document.getElementById('clock-v');
+
+        let nName = document.getElementById('modal-name');
+        let nUrl = document.getElementById('modal-url');
+        let nUrlIcon = document.getElementById('modal-icon');
+        let nUseName = document.getElementById('modal-useName');
+        let nUseIcon = document.getElementById('modal-useIcon');
+
+        let modal = document.getElementById('modal');
+        let btnCancelModal = document.getElementById('modal-cancel');
+        let btnCloseModal = document.getElementById('modal-close');
+        let btnAceptModal = document.getElementById('modal-acept');
+
+        let scBlur = document.getElementById('blur-sc');
+        let scPos = document.getElementById('pos-sc');
+        let scColor = document.getElementById('color-sc');
+        let scAnim = document.getElementById('anim-dur-sc');
+        let scDist = document.getElementById('distance-sc');
+
         inBlur.checked = settings.BG.blur;
         inUseColor.checked = settings.BG.useColor;
         inUseNASA.checked = settings.BG.useNASA;
@@ -134,6 +232,105 @@ function ChangeProp (name, value){
         inCSize.value = settings.CLOCK.size;
         inCPosV.value = settings.CLOCK.pos.v;
         inCPosH.value = settings.CLOCK.pos.h;
+
+        scBlur.checked = settings.BOOKSMARK.blur;
+        scPos.value = settings.BOOKSMARK.position;
+        scColor.value = settings.BOOKSMARK.color;
+        scAnim.value = settings.BOOKSMARK.timeAnimation;
+        scDist.value = settings.BOOKSMARK.pointOfAction;
+
+        scBlur.addEventListener('change', e => {
+            settings.BOOKSMARK.blur = e.target.checked;
+            if(settings.BOOKSMARK.blur)
+                ChangeProp('--sc-effect', 'blur(3px)');
+            else
+                ChangeProp('--sc-effect', 'none');
+            SaveData();
+        });
+        scPos.addEventListener('change', e => {
+            settings.BOOKSMARK.position = e.target.value;
+            ConfigureSC(document.getElementById('shortcuts'), settings);
+            SaveData();
+        });
+        scColor.addEventListener('change', e => {
+            settings.BOOKSMARK.color = e.target.value;
+            ConfigureSC(document.getElementById('shortcuts'), settings);
+            SaveData();
+        });
+        scAnim.addEventListener('change', e => {
+            settings.BOOKSMARK.timeAnimation = e.target.value;
+            ConfigureSC(document.getElementById('shortcuts'), settings);
+            SaveData();
+        });
+        scDist.addEventListener('change', e => {
+            settings.BOOKSMARK.pointOfAction = e.target.blur;
+            SaveData();
+        });
+
+        btnCloseModal.addEventListener('click', e => modal.style.display='none');
+        btnCancelModal.addEventListener('click',e => modal.style.display='none');
+        btnAceptModal.addEventListener('click', e => {
+            let newMark = {
+                name: nName.value,
+                url: nUrl.value,
+                urlIcon: nUrlIcon.value,
+                useName: nUseName.checked,
+                useIcon: nUseIcon.checked
+            };
+            settings.BOOKSMARK.list.push(newMark);
+            let newElement = `<a class="b-item" href="${newMark.url}">
+                    <img src="${newMark.useIcon == true ? newMark.urlIcon : "http://www.google.com/s2/favicons?domain=" + newMark.url}">
+                        ${newMark.useName == true ? "<span>"+newMark.name+"</span>" : ""}
+                </a>`;
+            document.getElementById('mark-list').innerHTML += newElement;
+            nName.value = "";
+            nUrl.value = "";
+            nUrlIcon.value = "";
+            nUseName.checked = false;
+            nUseIcon.checked = false;
+            SaveData();
+            modal.style.display = "none";
+        });
+        if(settings.BOOKSMARK.list.length > 0){
+            let n = 0;
+            settings.BOOKSMARK.list.forEach(newMark => {
+                let newElement = `<a class="b-item" href="${newMark.url}" oncontextmenu="EditSC(${n})">
+                    <img src="${newMark.useIcon == true ? newMark.urlIcon : "http://www.google.com/s2/favicons?domain=" + newMark.url}">
+                        ${newMark.useName == true ? "<span>"+newMark.name+"</span>" : ""}
+                </a>`;
+                document.getElementById('mark-list').innerHTML += newElement;
+                n++;
+            });
+        }
+        window.addEventListener("mousemove", function(e) {
+            switch(settings.BOOKSMARK.position){
+                case "b":
+                    if(e.clientY >= (window.innerHeight - settings.BOOKSMARK.pointOfAction))
+                        shortcutsList.style = "";
+                    else
+                        shortcutsList.style = "transform: translateY(1000px);";
+                    break;
+                case "t":
+                    if(e.clientY <= settings.BOOKSMARK.pointOfAction)
+                        shortcutsList.style = "";
+                    else
+                        shortcutsList.style = "transform: translateY(-1000px);";
+                    break;
+                case "l":
+                    if(e.clientX <= settings.BOOKSMARK.pointOfAction)
+                        shortcutsList.style = "";
+                    else
+                        shortcutsList.style = "transform: translateX(-1000px);";
+                    break;
+                case "r":
+                    if(e.clientX >= (window.innerWidth - settings.BOOKSMARK.pointOfAction))
+                        shortcutsList.style = "";
+                    else
+                        shortcutsList.style = "transform: translateX(1000px);";
+                    break;
+
+            }
+        });
 
         inBlur.addEventListener('change', e => {
             settings.BG.blur = e.target.checked;

@@ -1,12 +1,18 @@
 :root{
     --color-text: #999;
     --color-clock: #ccc;
+    --color-sc: #ffffff4d;
     --background-general: #000;
     --background-effect: none;
     --font-clock: "verdana";
     --font-size-clock: 60pt;
     --pos-clock-horizontal: center;
     --pos-clock-vertical: center;
+    --pos-sc-horizontal: center;
+    --pos-sc-vertical: flex-end;
+    --orientation-sc: row wrap;
+    --sc-effect: blur(3px);
+    --animation-duration-sc: .5s;
 }
 ::-webkit-scrollbar {
     width: 5px;
@@ -82,4 +88,69 @@ body {
     font-size: var(--font-size-clock);
     line-height: 1.0;
     text-align: center;
+}
+/*
+ *
+ * Modal
+ *
+ * */
+button {
+    cursor: pointer;
+    padding: 5px;
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+}
+button:hover, button:focus{
+    outline: none;
+    background-color: white;
+    color: #111;
+}
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    backdrop-filter: blur(5px);
+}
+.modal-content {
+    /*background-color: #fefefee3;*/
+    background-color: #111;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    max-width: 40%; /* Could be more or less, depending on screen size */
+}
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close:hover,
+.close:focus {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+.modal-header {
+    padding: 2px 16px;
+    color: white;
+    text-transform: uppercase;
+}
+.modal-body {padding: 2px 16px;}
+.modal-footer {
+    justify-content: right;
+    margin-top: 15px;
+    padding: 2px 16px;
+    color: white;
+    text-align-last: right;
+}
+@keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
 }

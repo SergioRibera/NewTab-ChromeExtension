@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="css/main.css"/>
         <link rel="stylesheet" href="css/slidepanel.css">
         <link rel="stylesheet" href="css/select.css">
+        <link rel="stylesheet" href="css/booksmark.css">
     </head>
     <body>
         <div id="mySidepanel" class="sidepanel" style="width:
@@ -106,7 +107,48 @@
                     </div>
                 </div>
             </div>
-            <button id="refresh-prs-btn">Reset Settings</button>
+            <div class="el">
+                <h2>Bookmark</h2>
+                <div class="container">
+                    <span>Background Blur</span>
+                    <label class="el switch">
+                        <input id="blur-sc" type="checkbox">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <div class="container">
+                    <span>Position</span>
+                    <div class="el">
+                        <select id="pos-sc" class="custom-select">
+                            <option value="t">Top</option>
+                            <option value="l">Left</option>
+                            <option value="r">Rigth</option>
+                            <option value="b">Bottom</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="container">
+                    <span>Background Color</span>
+                    <div class="el">
+                        <input id="color-sc" type="text" placeholder="#ffffff4d">
+                    </div>
+                </div>
+                <div class="container">
+                    <span>Distance To Active</span>
+                    <div class="el">
+                        <input id="distance-sc" type="text" placeholder="80">
+                    </div>
+                </div>
+                <div class="container">
+                    <span>Animation Duration</span>
+                    <div class="el">
+                        <input id="anim-dur-sc" type="text" placeholder="0.5s">
+                    </div>
+                </div>
+            </div>
+            <div style="width: 100%;text-align: center;">
+                <button id="refresh-prs-btn">Reset Settings</button>
+            </div>
         </div>
         <div class="flex flex-clock">
             <div>
@@ -115,6 +157,60 @@
         </div>
         <div class="flex open-settings">
             <span class="UpperCase">alt + shift + s</span>
+        </div>
+        <div id="shortcuts" class="flex flex-bookmark">
+            <div id="mark-list" class="bookscontainer">
+                <div id="add-mark" class="b-item" onclick="ActiveModal()">
+                    <img src="src/icons/add-circle.svg">
+                </div>
+            </div>
+        </div>
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span id="modal-close" class="close">&times;</span>
+                    <h2>Add Bookmark</h2>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <span>Name</span>
+                        <div class="el">
+                            <input id="modal-name" type="text" placeholder="Youtube">
+                        </div>
+                    </div>
+                    <div class="container">
+                        <span>URL</span>
+                        <div class="el">
+                            <input id="modal-url" type="text"
+                            placeholder="https://youtube.com">
+                        </div>
+                    </div>
+                    <div class="container">
+                        <span>URL Icono</span>
+                        <div class="el">
+                            <input id="modal-icon" type="text" placeholder="https://cdn4.iconfinder.com/data/icons/social-media-and-logos-11/32/Logo_Youtube-512.png">
+                        </div>
+                    </div>
+                    <div class="container">
+                        <span>Use Name Text</span>
+                        <label class="el switch">
+                            <input id="modal-useName" type="checkbox">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <div class="container">
+                        <span>Use Custom Icon</span>
+                        <label class="el switch">
+                            <input id="modal-useIcon" type="checkbox">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="modal-cancel">Cancel</button>
+                    <button id="modal-acept">Acept</button>
+                </div>
+            </div>
         </div>
         <script src="tab.js"></script>
     </body>
