@@ -10,8 +10,10 @@
             rel="stylesheet">
         <link rel="stylesheet" href="css/main.css"/>
         <link rel="stylesheet" href="css/slidepanel.css">
-        <link rel="stylesheet" href="css/select.css">
+        <link rel="stylesheet" href="css/inputs.css">
         <link rel="stylesheet" href="css/booksmark.css">
+
+        <script src="src/js/jscolor.js"></script>
     </head>
     <body>
         <div id="mySidepanel" class="sidepanel" style="width:
@@ -50,9 +52,10 @@
                 </div>
                 <!-- Input Fields -->
                 <div class="container">
-                    <span>Use Color</span>
+                    <span>Background Color</span>
                     <div class="el">
-                        <input id="bg-color" type="text" placeholder="#ffffff" value="#313131">
+                        <input type="text" id="bg-color" data-jscolor="{}">
+                        <div class="color-prev"></div>
                     </div>
                 </div>
                 <div class="container">
@@ -68,21 +71,21 @@
                     <span>Font</span>
                     <div class="el">
                         <input id="clock-font" type="text"
-                        placeholder="Montserrat" value="Monserrat">
+                                               placeholder="Montserrat" value="Monserrat">
                     </div>
                 </div>
                 <div class="container">
                     <span>Clock Color</span>
                     <div class="el">
-                        <input id="clock-color" type="text" placeholder="#ffffff" value="#ccc">
+                        <input id="clock-color" type="text"
+                                                data-jscolor="{}">
                     </div>
                 </div>
 
                 <div class="container">
                     <span>Size</span>
                     <div class="el">
-                        <input id="clock-size" type="text" placeholder="120pt"
-                        value="60pt">
+                        <input id="clock-size" type="range" min="10" max="500" value="60">
                     </div>
                 </div>
                 <div class="container">
@@ -130,19 +133,19 @@
                 <div class="container">
                     <span>Background Color</span>
                     <div class="el">
-                        <input id="color-sc" type="text" placeholder="#ffffff4d">
+                        <input id="color-sc" type="text" data-jscolor="{}">
                     </div>
                 </div>
                 <div class="container">
                     <span>Distance To Active</span>
                     <div class="el">
-                        <input id="distance-sc" type="text" placeholder="80">
+                        <input id="distance-sc" type="range" min="40" max="200" step="1" placeholder="80">
                     </div>
                 </div>
                 <div class="container">
                     <span>Animation Duration</span>
                     <div class="el">
-                        <input id="anim-dur-sc" type="text" placeholder="0.5s">
+                        <input id="anim-dur-sc" type="range" min="0.1" max="5.0" step="0.1">
                     </div>
                 </div>
             </div>
@@ -182,7 +185,7 @@
                         <span>URL</span>
                         <div class="el">
                             <input id="modal-url" type="text"
-                            placeholder="https://youtube.com">
+                                                  placeholder="https://youtube.com">
                         </div>
                     </div>
                     <div class="container">
@@ -212,6 +215,7 @@
                 </div>
             </div>
         </div>
+        <script src="verifyupdate.js"></script>
         <script src="tab.js"></script>
     </body>
 </html>

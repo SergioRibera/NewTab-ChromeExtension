@@ -5,13 +5,12 @@
   "version": "1.0",
   "description": "This is a Amazing New Tab Extension",
   "permissions": [
-      "http://*/*",
-      "https://*/*",
+      "<all_urls>",
       "activeTab",
+      "notifications",
       "management",
       "storage"
   ],
-  "content_security_policy": "script-src 'self' 'unsafe-inline'; object-src 'self'",
   "chrome_url_overrides": {
       "newtab": "newtab.html"
   },

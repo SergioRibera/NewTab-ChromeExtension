@@ -94,18 +94,6 @@ body {
  * Modal
  *
  * */
-button {
-    cursor: pointer;
-    padding: 5px;
-    background-color: transparent;
-    color: white;
-    border: 1px solid white;
-}
-button:hover, button:focus{
-    outline: none;
-    background-color: white;
-    color: #111;
-}
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */

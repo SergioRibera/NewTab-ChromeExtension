@@ -8,34 +8,6 @@ function updateClock(){
 updateClock();
 var intervalID = window.setInterval(updateClock, 10000);
 
-function ajax(requestType, requestUrl, data, headers, successCb) {
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
-        if (xmlhttp.readyState == 4 ) {
-            if (xmlhttp.status == 200 && typeof successCb == 'function')
-                successCb(xmlhttp);
-            else
-                console.log('Error: '+xmlhttp.status);
-        }
-    }
-    xmlhttp.open(requestType, requestUrl, true);
-    for (key in headers)
-        xmlhttp.setRequestHeader(key, headers[key]);
-    if (data) {
-        var dataToSend = [];
-        if (typeof data == 'object') {
-            for (var i in data)
-                dataToSend.push(i+'='+encodeURIComponent(data[i]));
-            dataToSend = dataToSend.join('&');
-        }
-        else
-            dataToSend = data;
-        xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        xmlhttp.send(dataToSend);
-    }
-    else
-        xmlhttp.send();
-}
 chrome.commands.onCommand.addListener(function (command) {
     let slide = document.getElementById("mySidepanel");
     if (command === "open-close") {
@@ -67,7 +39,7 @@ let settings = {
         pointOfAction: 80,
         timeAnimation: ".5s",
         position: 'r', 
-        color: "#ffffff4d",
+        color: "rgba(255, 255, 255, .3)",
         blur: true,
         list: []
     }
@@ -81,9 +53,7 @@ function ResetSettings(){
     });
     window.location.reload();
 }
-function SaveData(){
-    chrome.storage.local.set({conf: settings});
-}
+function SaveData(){ chrome.storage.local.set({conf: settings}); }
 function UseNASA(){
     let root = document.documentElement.style;
     ajax('GEt', 'https://api.nasa.gov/planetary/apod?api_key=pOorkF4PZaZtmG8oQbQWJZ97scVpsKJeHlFtV7lu', false, false, r => {
@@ -183,6 +153,18 @@ function ActiveModal(){
     document.getElementById('refresh-prs-btn').onclick = function() {
         ResetSettings();
     };
+    verifyUpdate("SergioRibera", "NewTab-ChromeExtension", "main", "manifest.json", "1.1", () => {
+        chrome.notifications.create("SR-newTab-update-verify", {
+            type: "basic",
+            iconUrl: "./images/get_started128.png",
+            title: "There is a new update",
+            message: "There is a new update for SergioRibera NewTab extension"
+        }, null);
+        chrome.notifications.onClicked.addListener(id => {
+            if(id == "SR-newTab-update-verify")
+                window.location.href = "https://github.com/SergioRibera/NewTab-ChromeExtension/releases";
+        });
+    });
     document.addEventListener('contextmenu', e => e.preventDefault());
     chrome.storage.local.get('conf', result => {
         if(result.conf)
@@ -253,7 +235,7 @@ function ActiveModal(){
     scDist.value = settings.BOOKSMARK.pointOfAction;
 
     document.getElementById('mark-list').onclick = ActiveModal;
-    scBlur.addEventListener('change', e => {
+    scBlur.addEventListener('input', e => {
         settings.BOOKSMARK.blur = e.target.checked;
         if(settings.BOOKSMARK.blur)
             ChangeProp('--sc-effect', 'blur(3px)');
@@ -261,22 +243,22 @@ function ActiveModal(){
             ChangeProp('--sc-effect', 'none');
         SaveData();
     });
-    scPos.addEventListener('change', e => {
+    scPos.addEventListener('input', e => {
         settings.BOOKSMARK.position = e.target.value;
         ConfigureSC(document.getElementById('shortcuts'), settings);
         SaveData();
     });
-    scColor.addEventListener('change', e => {
+    scColor.addEventListener('input', e => {
         settings.BOOKSMARK.color = e.target.value;
         ConfigureSC(document.getElementById('shortcuts'), settings);
         SaveData();
     });
-    scAnim.addEventListener('change', e => {
-        settings.BOOKSMARK.timeAnimation = e.target.value;
+    scAnim.addEventListener('input', e => {
+        settings.BOOKSMARK.timeAnimation = e.target.value + "s";
         ConfigureSC(document.getElementById('shortcuts'), settings);
         SaveData();
     });
-    scDist.addEventListener('change', e => {
+    scDist.addEventListener('input', e => {
         settings.BOOKSMARK.pointOfAction = e.target.blur;
         SaveData();
     });
@@ -338,7 +320,7 @@ function ActiveModal(){
         }
     });
 
-    inBlur.addEventListener('change', e => {
+    inBlur.addEventListener('input', e => {
         settings.BG.blur = e.target.checked;
         if(settings.BG.blur)
             ChangeProp('--background-effect', 'blur(3px)');
@@ -346,7 +328,7 @@ function ActiveModal(){
             ChangeProp('--background-effect', 'none');
         SaveData();
     });
-    inUseColor.addEventListener('change', e => {
+    inUseColor.addEventListener('input', e => {
         settings.BG.useColor = e.target.checked;
         if(settings.BG.useColor)
             ChangeProp('--background-general', settings.BG.color);
@@ -359,72 +341,79 @@ function ActiveModal(){
             UseNASA();
         SaveData();
     });
-    inUseNASA.addEventListener('change', e => {
+    inUseNASA.addEventListener('input', e => {
         settings.BG.useNASA = e.target.checked;
-        if(settings.BG.useColor)
-            ChangeProp('--background-general', settings.BG.color);
-        else
-            if(!settings.BG.useNASA)
-                ChangeProp('--background-general', '');
+        if(settings.BG.useNASA)
+            UseNASA();
         else if(settings.BG.customIMG)
             ChangeProp('--background-general', settings.BG.customIMG);
         else
-            UseNASA();
+            ChangeProp('--background-general', settings.BG.color);
         SaveData();
     });
-    inUseCustomIMG.addEventListener('change', e => {
+    inUseCustomIMG.addEventListener('input', e => {
         settings.BG.useCustomIMG = e.target.checked;
-        if(settings.BG.useColor)
-            ChangeProp('--background-general', settings.BG.color);
-        else
-            if(!settings.BG.useNASA)
-                ChangeProp('--background-general', '');
-        else if(settings.BG.customIMG)
+        if(settings.BG.customIMG)
             ChangeProp('--background-general', "url("+settings.BG.customIMG+")");
-        else
+        else if(settings.BG.useNASA)
             UseNASA();
+        else
+            ChangeProp('--background-general', settings.BG.color);
         SaveData();
     });
 
-    inBgColor.addEventListener('change', e => {
+    inBgColor.addEventListener('input', e => {
         settings.BG.color = e.target.value;
         settings.BG.useColor = true;
         inUseColor.checked = true;
         ChangeProp('--background-general', settings.BG.color);
         SaveData();
     });
-    inBgCimage.addEventListener('change', e => {
+    inBgCimage.addEventListener('input', e => {
         settings.BG.customIMG = e.target.value;
         settings.BG.useCustomIMG = true;
         inBgCimage.checked = true;
         ChangeProp('--background-general', "url("+settings.BG.customIMG+")");
         SaveData();
     });
-    inCFont.addEventListener('change', e => {
+    inCFont.addEventListener('input', e => {
         settings.CLOCK.font = e.target.value;
         ChangeProp('--font-clock', settings.CLOCK.font);
         SaveData();
     });
-    inCColor.addEventListener('change', e => {
+    inCColor.addEventListener('input', e => {
         settings.CLOCK.color = e.target.value;
         ChangeProp('--color-clock', settings.CLOCK.color);
         SaveData();
     });
 
-    inCSize.addEventListener('change', e => {
+    inCSize.addEventListener('input', e => {
         settings.CLOCK.size = e.target.value;
-        ChangeProp('--font-size-clock', settings.CLOCK.size);
+        ChangeProp('--font-size-clock', settings.CLOCK.size + "pt");
         SaveData();
     });
-    inCPosV.addEventListener('change', e => {
+    inCPosV.addEventListener('input', e => {
         settings.CLOCK.pos.v = e.target.value;
         ChangeProp('--pos-clock-vertical', settings.CLOCK.pos.v);
         SaveData();
     });
-    inCPosH.addEventListener('change', e => {
+    inCPosH.addEventListener('input', e => {
         settings.CLOCK.pos.h = e.target.value;
         ChangeProp('--pos-clock-horizontal', settings.CLOCK.pos.h);
         SaveData();
     });
     });
+    jscolor.presets.default = {
+        width: 101,
+        height: 101,
+        alphaChannel: true,
+        format: 'rgba',
+        position: 'right',
+        previewPosition: 'left',
+        backgroundColor: '#ffffff7d',
+        borderWidth: 0,
+        controlBorderWidth: 0,
+        sliderSize: 14,
+        hideOnPaletteClick: true,
+    }
 }());
