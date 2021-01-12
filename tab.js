@@ -179,7 +179,7 @@ function ActiveModal(){
         ChangeProp('--background-general', settings.BG.color);
     ChangeProp('--color-clock', settings.CLOCK.color)
     ChangeProp('--font-clock', settings.CLOCK.font);
-    ChangeProp('--font-size-clock', settings.CLOCK.size);
+    ChangeProp('--font-size-clock', settings.CLOCK.size + "pt");
     ChangeProp('--pos-clock-vertical', settings.CLOCK.pos.v);
     ChangeProp('--pos-clock-horizontal', settings.CLOCK.pos.h);
     let shortcutsList = document.getElementById('shortcuts');
