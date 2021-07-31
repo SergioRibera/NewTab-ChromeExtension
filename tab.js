@@ -101,12 +101,12 @@ function ConfigureSC(sc, sets){
 }
 function AddSC(newMark){
     let a = document.createElement("a");
-        a.classList.add("b-item");
-        a.href = newMark.url;
+    a.classList.add("b-item");
+    a.href = newMark.url;
     let img = document.createElement("img");
-        img.src = newMark.useIcon == true ? newMark.urlIcon : "http://www.google.com/s2/favicons?domain=" + newMark.url;
+    img.src = newMark.useIcon == true ? newMark.urlIcon : "http://www.google.com/s2/favicons?domain=" + newMark.url;
     let span = document.createElement("span");
-        span.innerText = newMark.name;
+    span.innerText = newMark.name;
     a.appendChild(img);
     if(newMark.useName)
         a.appendChild(span);
@@ -171,237 +171,237 @@ function ActiveModal(){
             settings = result.conf;
         else
             SaveData();
-    if(settings.BG.useNASA)
-        UseNASA();
-    else if(settings.BG.useCustomIMG)
-        ChangeProp('--background-general', "url("+settings.BG.customIMG+")");
-    else
-        ChangeProp('--background-general', settings.BG.color);
-    ChangeProp('--color-clock', settings.CLOCK.color)
-    ChangeProp('--font-clock', settings.CLOCK.font);
-    ChangeProp('--font-size-clock', settings.CLOCK.size + "pt");
-    ChangeProp('--pos-clock-vertical', settings.CLOCK.pos.v);
-    ChangeProp('--pos-clock-horizontal', settings.CLOCK.pos.h);
-    let shortcutsList = document.getElementById('shortcuts');
-    ConfigureSC(shortcutsList, settings);
-
-    let inBlur = document.getElementById('blur');
-    let inUseColor = document.getElementById('useColor');
-    let inUseNASA = document.getElementById('useNASA');
-    let inUseCustomIMG = document.getElementById('useCustomIMG');
-    let inBgColor = document.getElementById('bg-color');
-    let inBgCimage = document.getElementById('bg-cimage');
-
-    let inCFont = document.getElementById('clock-font');
-    let inCColor = document.getElementById('clock-color');
-    let inCSize = document.getElementById('clock-size');
-    let inCPosH = document.getElementById('clock-h');
-    let inCPosV = document.getElementById('clock-v');
-
-    let nName = document.getElementById('modal-name');
-    let nUrl = document.getElementById('modal-url');
-    let nUrlIcon = document.getElementById('modal-icon');
-    let nUseName = document.getElementById('modal-useName');
-    let nUseIcon = document.getElementById('modal-useIcon');
-
-    let modal = document.getElementById('modal');
-    let btnCancelModal = document.getElementById('modal-cancel');
-    let btnCloseModal = document.getElementById('modal-close');
-    let btnAceptModal = document.getElementById('modal-acept');
-
-    let scBlur = document.getElementById('blur-sc');
-    let scPos = document.getElementById('pos-sc');
-    let scColor = document.getElementById('color-sc');
-    let scAnim = document.getElementById('anim-dur-sc');
-    let scDist = document.getElementById('distance-sc');
-
-    inBlur.checked = settings.BG.blur;
-    inUseColor.checked = settings.BG.useColor;
-    inUseNASA.checked = settings.BG.useNASA;
-    inUseCustomIMG.checked = settings.BG.useCustomIMG;
-    inBgColor.value = settings.BG.color;
-    inBgCimage.value = settings.BG.customIMG;
-    // Clock Settings
-    inCFont.value = settings.CLOCK.font;
-    inCColor.value = settings.CLOCK.color;
-    inCSize.value = settings.CLOCK.size;
-    inCPosV.value = settings.CLOCK.pos.v;
-    inCPosH.value = settings.CLOCK.pos.h;
-
-    scBlur.checked = settings.BOOKSMARK.blur;
-    scPos.value = settings.BOOKSMARK.position;
-    scColor.value = settings.BOOKSMARK.color;
-    scAnim.value = settings.BOOKSMARK.timeAnimation;
-    scDist.value = settings.BOOKSMARK.pointOfAction;
-
-    document.getElementById('mark-list').onclick = ActiveModal;
-    scBlur.addEventListener('input', e => {
-        settings.BOOKSMARK.blur = e.target.checked;
-        if(settings.BOOKSMARK.blur)
-            ChangeProp('--sc-effect', 'blur(3px)');
-        else
-            ChangeProp('--sc-effect', 'none');
-        SaveData();
-    });
-    scPos.addEventListener('input', e => {
-        settings.BOOKSMARK.position = e.target.value;
-        ConfigureSC(document.getElementById('shortcuts'), settings);
-        SaveData();
-    });
-    scColor.addEventListener('input', e => {
-        settings.BOOKSMARK.color = e.target.value;
-        ConfigureSC(document.getElementById('shortcuts'), settings);
-        SaveData();
-    });
-    scAnim.addEventListener('input', e => {
-        settings.BOOKSMARK.timeAnimation = e.target.value + "s";
-        ConfigureSC(document.getElementById('shortcuts'), settings);
-        SaveData();
-    });
-    scDist.addEventListener('input', e => {
-        settings.BOOKSMARK.pointOfAction = e.target.blur;
-        SaveData();
-    });
-
-    btnCloseModal.addEventListener('click', e => modal.style.display='none');
-    btnCancelModal.addEventListener('click',e => modal.style.display='none');
-    btnAceptModal.addEventListener('click', e => {
-        let newMark = {
-            name: nName.value,
-            url: nUrl.value,
-            urlIcon: nUrlIcon.value,
-            useName: nUseName.checked,
-            useIcon: nUseIcon.checked
-        };
-        settings.BOOKSMARK.list.push(newMark);
-        AddSC(newMark);/*.oncontextmenu = () => EditSC(settings.BOOKSMARK.list.length);*/
-        nName.value = "";
-        nUrl.value = "";
-        nUrlIcon.value = "";
-        nUseName.checked = false;
-        nUseIcon.checked = false;
-        SaveData();
-        modal.style.display = "none";
-    });
-    if(settings.BOOKSMARK.list.length > 0){
-        let n = 0;
-        settings.BOOKSMARK.list.forEach(newMark => {
-            AddSC(newMark);/*.oncontextmenu = () => EditSC(n);*/
-            n++;
-        });
-    }
-    window.addEventListener("mousemove", function(e) {
-        switch(settings.BOOKSMARK.position){
-            case "b":
-                if(e.clientY >= (window.innerHeight - settings.BOOKSMARK.pointOfAction))
-                    shortcutsList.style = "";
-                else
-                    shortcutsList.style = "transform: translateY(1000px);";
-                break;
-            case "t":
-                if(e.clientY <= settings.BOOKSMARK.pointOfAction)
-                    shortcutsList.style = "";
-                else
-                    shortcutsList.style = "transform: translateY(-1000px);";
-                break;
-            case "l":
-                if(e.clientX <= settings.BOOKSMARK.pointOfAction)
-                    shortcutsList.style = "";
-                else
-                    shortcutsList.style = "transform: translateX(-1000px);";
-                break;
-            case "r":
-                if(e.clientX >= (window.innerWidth - settings.BOOKSMARK.pointOfAction))
-                    shortcutsList.style = "";
-                else
-                    shortcutsList.style = "transform: translateX(1000px);";
-                break;
-
-        }
-    });
-
-    inBlur.addEventListener('input', e => {
-        settings.BG.blur = e.target.checked;
-        if(settings.BG.blur)
-            ChangeProp('--background-effect', 'blur(3px)');
-        else
-            ChangeProp('--background-effect', 'none');
-        SaveData();
-    });
-    inUseColor.addEventListener('input', e => {
-        settings.BG.useColor = e.target.checked;
-        if(settings.BG.useColor)
-            ChangeProp('--background-general', settings.BG.color);
-        else
-            if(!settings.BG.useNASA)
-                ChangeProp('--background-general', '');
-        else if(settings.BG.customIMG)
-            ChangeProp('--background-general', settings.BG.customIMG);
-        else
-            UseNASA();
-        SaveData();
-    });
-    inUseNASA.addEventListener('input', e => {
-        settings.BG.useNASA = e.target.checked;
         if(settings.BG.useNASA)
             UseNASA();
-        else if(settings.BG.customIMG)
-            ChangeProp('--background-general', settings.BG.customIMG);
-        else
-            ChangeProp('--background-general', settings.BG.color);
-        SaveData();
-    });
-    inUseCustomIMG.addEventListener('input', e => {
-        settings.BG.useCustomIMG = e.target.checked;
-        if(settings.BG.customIMG)
+        else if(settings.BG.useCustomIMG)
             ChangeProp('--background-general', "url("+settings.BG.customIMG+")");
-        else if(settings.BG.useNASA)
-            UseNASA();
         else
             ChangeProp('--background-general', settings.BG.color);
-        SaveData();
-    });
-
-    inBgColor.addEventListener('input', e => {
-        settings.BG.color = e.target.value;
-        settings.BG.useColor = true;
-        inUseColor.checked = true;
-        ChangeProp('--background-general', settings.BG.color);
-        SaveData();
-    });
-    inBgCimage.addEventListener('input', e => {
-        settings.BG.customIMG = e.target.value;
-        settings.BG.useCustomIMG = true;
-        inBgCimage.checked = true;
-        ChangeProp('--background-general', "url("+settings.BG.customIMG+")");
-        SaveData();
-    });
-    inCFont.addEventListener('input', e => {
-        settings.CLOCK.font = e.target.value;
+        ChangeProp('--color-clock', settings.CLOCK.color)
         ChangeProp('--font-clock', settings.CLOCK.font);
-        SaveData();
-    });
-    inCColor.addEventListener('input', e => {
-        settings.CLOCK.color = e.target.value;
-        ChangeProp('--color-clock', settings.CLOCK.color);
-        SaveData();
-    });
-
-    inCSize.addEventListener('input', e => {
-        settings.CLOCK.size = e.target.value;
         ChangeProp('--font-size-clock', settings.CLOCK.size + "pt");
-        SaveData();
-    });
-    inCPosV.addEventListener('input', e => {
-        settings.CLOCK.pos.v = e.target.value;
         ChangeProp('--pos-clock-vertical', settings.CLOCK.pos.v);
-        SaveData();
-    });
-    inCPosH.addEventListener('input', e => {
-        settings.CLOCK.pos.h = e.target.value;
         ChangeProp('--pos-clock-horizontal', settings.CLOCK.pos.h);
-        SaveData();
-    });
+        let shortcutsList = document.getElementById('shortcuts');
+        ConfigureSC(shortcutsList, settings);
+
+        let inBlur = document.getElementById('blur');
+        let inUseColor = document.getElementById('useColor');
+        let inUseNASA = document.getElementById('useNASA');
+        let inUseCustomIMG = document.getElementById('useCustomIMG');
+        let inBgColor = document.getElementById('bg-color');
+        let inBgCimage = document.getElementById('bg-cimage');
+
+        let inCFont = document.getElementById('clock-font');
+        let inCColor = document.getElementById('clock-color');
+        let inCSize = document.getElementById('clock-size');
+        let inCPosH = document.getElementById('clock-h');
+        let inCPosV = document.getElementById('clock-v');
+
+        let nName = document.getElementById('modal-name');
+        let nUrl = document.getElementById('modal-url');
+        let nUrlIcon = document.getElementById('modal-icon');
+        let nUseName = document.getElementById('modal-useName');
+        let nUseIcon = document.getElementById('modal-useIcon');
+
+        let modal = document.getElementById('modal');
+        let btnCancelModal = document.getElementById('modal-cancel');
+        let btnCloseModal = document.getElementById('modal-close');
+        let btnAceptModal = document.getElementById('modal-acept');
+
+        let scBlur = document.getElementById('blur-sc');
+        let scPos = document.getElementById('pos-sc');
+        let scColor = document.getElementById('color-sc');
+        let scAnim = document.getElementById('anim-dur-sc');
+        let scDist = document.getElementById('distance-sc');
+
+        inBlur.checked = settings.BG.blur;
+        inUseColor.checked = settings.BG.useColor;
+        inUseNASA.checked = settings.BG.useNASA;
+        inUseCustomIMG.checked = settings.BG.useCustomIMG;
+        inBgColor.value = settings.BG.color;
+        inBgCimage.value = settings.BG.customIMG;
+        // Clock Settings
+        inCFont.value = settings.CLOCK.font;
+        inCColor.value = settings.CLOCK.color;
+        inCSize.value = settings.CLOCK.size;
+        inCPosV.value = settings.CLOCK.pos.v;
+        inCPosH.value = settings.CLOCK.pos.h;
+
+        scBlur.checked = settings.BOOKSMARK.blur;
+        scPos.value = settings.BOOKSMARK.position;
+        scColor.value = settings.BOOKSMARK.color;
+        scAnim.value = settings.BOOKSMARK.timeAnimation;
+        scDist.value = settings.BOOKSMARK.pointOfAction;
+
+        document.getElementById('mark-list').onclick = ActiveModal;
+        scBlur.addEventListener('input', e => {
+            settings.BOOKSMARK.blur = e.target.checked;
+            if(settings.BOOKSMARK.blur)
+                ChangeProp('--sc-effect', 'blur(3px)');
+            else
+                ChangeProp('--sc-effect', 'none');
+            SaveData();
+        });
+        scPos.addEventListener('input', e => {
+            settings.BOOKSMARK.position = e.target.value;
+            ConfigureSC(document.getElementById('shortcuts'), settings);
+            SaveData();
+        });
+        scColor.addEventListener('input', e => {
+            settings.BOOKSMARK.color = e.target.value;
+            ConfigureSC(document.getElementById('shortcuts'), settings);
+            SaveData();
+        });
+        scAnim.addEventListener('input', e => {
+            settings.BOOKSMARK.timeAnimation = e.target.value + "s";
+            ConfigureSC(document.getElementById('shortcuts'), settings);
+            SaveData();
+        });
+        scDist.addEventListener('input', e => {
+            settings.BOOKSMARK.pointOfAction = e.target.blur;
+            SaveData();
+        });
+
+        btnCloseModal.addEventListener('click', e => modal.style.display='none');
+        btnCancelModal.addEventListener('click',e => modal.style.display='none');
+        btnAceptModal.addEventListener('click', e => {
+            let newMark = {
+                name: nName.value,
+                url: nUrl.value,
+                urlIcon: nUrlIcon.value,
+                useName: nUseName.checked,
+                useIcon: nUseIcon.checked
+            };
+            settings.BOOKSMARK.list.push(newMark);
+            AddSC(newMark);/*.oncontextmenu = () => EditSC(settings.BOOKSMARK.list.length);*/
+            nName.value = "";
+            nUrl.value = "";
+            nUrlIcon.value = "";
+            nUseName.checked = false;
+            nUseIcon.checked = false;
+            SaveData();
+            modal.style.display = "none";
+        });
+        if(settings.BOOKSMARK.list.length > 0){
+            let n = 0;
+            settings.BOOKSMARK.list.forEach(newMark => {
+                AddSC(newMark);/*.oncontextmenu = () => EditSC(n);*/
+                n++;
+            });
+        }
+        window.addEventListener("mousemove", function(e) {
+            switch(settings.BOOKSMARK.position){
+                case "b":
+                    if(e.clientY >= (window.innerHeight - settings.BOOKSMARK.pointOfAction))
+                        shortcutsList.style = "";
+                    else
+                        shortcutsList.style = "transform: translateY(1000px);";
+                    break;
+                case "t":
+                    if(e.clientY <= settings.BOOKSMARK.pointOfAction)
+                        shortcutsList.style = "";
+                    else
+                        shortcutsList.style = "transform: translateY(-1000px);";
+                    break;
+                case "l":
+                    if(e.clientX <= settings.BOOKSMARK.pointOfAction)
+                        shortcutsList.style = "";
+                    else
+                        shortcutsList.style = "transform: translateX(-1000px);";
+                    break;
+                case "r":
+                    if(e.clientX >= (window.innerWidth - settings.BOOKSMARK.pointOfAction))
+                        shortcutsList.style = "";
+                    else
+                        shortcutsList.style = "transform: translateX(1000px);";
+                    break;
+
+            }
+        });
+
+        inBlur.addEventListener('input', e => {
+            settings.BG.blur = e.target.checked;
+            if(settings.BG.blur)
+                ChangeProp('--background-effect', 'blur(3px)');
+            else
+                ChangeProp('--background-effect', 'none');
+            SaveData();
+        });
+        inUseColor.addEventListener('input', e => {
+            settings.BG.useColor = e.target.checked;
+            if(settings.BG.useColor)
+                ChangeProp('--background-general', settings.BG.color);
+            else
+                if(!settings.BG.useNASA)
+                    ChangeProp('--background-general', '');
+            else if(settings.BG.customIMG)
+                ChangeProp('--background-general', settings.BG.customIMG);
+            else
+                UseNASA();
+            SaveData();
+        });
+        inUseNASA.addEventListener('input', e => {
+            settings.BG.useNASA = e.target.checked;
+            if(settings.BG.useNASA)
+                UseNASA();
+            else if(settings.BG.customIMG)
+                ChangeProp('--background-general', settings.BG.customIMG);
+            else
+                ChangeProp('--background-general', settings.BG.color);
+            SaveData();
+        });
+        inUseCustomIMG.addEventListener('input', e => {
+            settings.BG.useCustomIMG = e.target.checked;
+            if(settings.BG.customIMG)
+                ChangeProp('--background-general', "url("+settings.BG.customIMG+")");
+            else if(settings.BG.useNASA)
+                UseNASA();
+            else
+                ChangeProp('--background-general', settings.BG.color);
+            SaveData();
+        });
+
+        inBgColor.addEventListener('input', e => {
+            settings.BG.color = e.target.value;
+            settings.BG.useColor = true;
+            inUseColor.checked = true;
+            ChangeProp('--background-general', settings.BG.color);
+            SaveData();
+        });
+        inBgCimage.addEventListener('input', e => {
+            settings.BG.customIMG = e.target.value;
+            settings.BG.useCustomIMG = true;
+            inBgCimage.checked = true;
+            ChangeProp('--background-general', "url("+settings.BG.customIMG+")");
+            SaveData();
+        });
+        inCFont.addEventListener('input', e => {
+            settings.CLOCK.font = e.target.value;
+            ChangeProp('--font-clock', settings.CLOCK.font);
+            SaveData();
+        });
+        inCColor.addEventListener('input', e => {
+            settings.CLOCK.color = e.target.value;
+            ChangeProp('--color-clock', settings.CLOCK.color);
+            SaveData();
+        });
+
+        inCSize.addEventListener('input', e => {
+            settings.CLOCK.size = e.target.value;
+            ChangeProp('--font-size-clock', settings.CLOCK.size + "pt");
+            SaveData();
+        });
+        inCPosV.addEventListener('input', e => {
+            settings.CLOCK.pos.v = e.target.value;
+            ChangeProp('--pos-clock-vertical', settings.CLOCK.pos.v);
+            SaveData();
+        });
+        inCPosH.addEventListener('input', e => {
+            settings.CLOCK.pos.h = e.target.value;
+            ChangeProp('--pos-clock-horizontal', settings.CLOCK.pos.h);
+            SaveData();
+        });
     });
     jscolor.presets.default = {
         width: 101,
