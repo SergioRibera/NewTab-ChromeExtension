@@ -8,8 +8,9 @@
     background-color: var(--color-sc);
     backdrop-filter: var(--sc-effect);
     border-radius: 7px;
+    gap: 5px;
     padding: 10px;
-    margin: 5px;
+    margin: 15px;
     display: flex;
     flex-flow: var(--orientation-sc);
 }
@@ -18,11 +19,13 @@
     width: 45px;
     height: 45px;
     display: flex;
-    /*background-color: red;*/
     border-radius: 7px;
     justify-content: center;
     align-items: center;
 }
 .bookscontainer .b-item:first-child { background-color: #ffffff3d; }
 .bookscontainer .b-item:first-child img { width: 60%; }
-.bookscontainer .b-item img { width: 80%; }
+.bookscontainer .b-item img {
+    border-radius: 7px;
+    width: 80%;
+}

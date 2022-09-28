@@ -17,6 +17,7 @@ chrome.commands.onCommand.addListener(function (command) {
             slide.style = "width: 0px; padding-right: 0px;";
     }
 });
+let editMode = false;
 let settings = {
     BG: {
         useColor: true,
@@ -98,13 +99,31 @@ function ConfigureSC(sc, sets){
     ChangeProp('--color-sc', sets.BOOKSMARK.color);
     ChangeProp('--sc-effect', sets.BOOKSMARK.blur ? 'blur(3px)':'none');
     ChangeProp('--animation-duration-sc', sets.BOOKSMARK.timeAnimation);
+    SetAllBM()
+}
+function SetAllBM() {
+    const markList = document.getElementById('mark-list')
+    while (markList.childNodes.length > 2) {
+        markList.removeChild(markList.lastChild);
+    }
+    let count = settings.BOOKSMARK.list.length;
+    if(count > 0){
+        for (let i = 0; i < count; i++) {
+            const newMark = settings.BOOKSMARK.list[i];
+            AddSC(newMark).oncontextmenu = () => {
+                editMode = true;
+                EditSC(i);
+                return false;
+            }
+        }
+    }
 }
 function AddSC(newMark){
     let a = document.createElement("a");
     a.classList.add("b-item");
     a.href = newMark.url;
     let img = document.createElement("img");
-    img.src = newMark.useIcon == true ? newMark.urlIcon : "http://www.google.com/s2/favicons?domain=" + newMark.url;
+    img.src = newMark.useIcon == true && newMark.urlIcon.length > 0 ? newMark.urlIcon : "http://www.google.com/s2/favicons?domain=" + newMark.url;
     let span = document.createElement("span");
     span.innerText = newMark.name;
     a.appendChild(img);
@@ -113,21 +132,51 @@ function AddSC(newMark){
     document.getElementById('mark-list').appendChild(a);
     return a;
 }
-function EditSC(n){
+
+function clearModal() {
     let nName = document.getElementById('modal-name');
     let nUrl = document.getElementById('modal-url');
     let nUrlIcon = document.getElementById('modal-icon');
     let nUseName = document.getElementById('modal-useName');
     let nUseIcon = document.getElementById('modal-useIcon');
+    let btnRemove = document.getElementById('modal-remove');
 
-    let sc = settings.BOOKSMARK.list[n-1];
+    nName.value = "";
+    nUrl.value = "";
+    nUrlIcon.value = "";
+    nUseName.checked = false;
+    nUseIcon.checked = false;
+    btnRemove.style.display = 'none'
+}
+
+function EditSC(n){
+    if (!editMode) return;
+    clearModal()
+    let nName = document.getElementById('modal-name');
+    let nUrl = document.getElementById('modal-url');
+    let nUrlIcon = document.getElementById('modal-icon');
+    let nUseName = document.getElementById('modal-useName');
+    let nUseIcon = document.getElementById('modal-useIcon');
+    let btnRemove = document.getElementById('modal-remove');
+    btnRemove.style = ''
+
+    let sc = settings.BOOKSMARK.list[n];
     nName.value = sc.name;
     nUrl.value = sc.url;
     nUrlIcon.value = sc.urlIcon;
     nUseName.checked = sc.useName;
     nUseIcon.checked = sc.useIcon;
     let btnAceptModal = document.getElementById('modal-acept');
-    btnAceptModal.onclick = function(){
+    let afterListener = btnAceptModal.onclick;
+    ActiveModal()
+    btnRemove.onclick = () => {
+        settings.BOOKSMARK.list.splice(n, 1)
+        SaveData()
+        SetAllBM()
+        clearModal();
+        document.getElementById('modal').style.display = 'none'
+    }
+    btnAceptModal.onclick = () => {
         let newMark = {
             name: nName.value,
             url: nUrl.value,
@@ -135,7 +184,7 @@ function EditSC(n){
             useName: nUseName.checked,
             useIcon: nUseIcon.checked
         };
-        settings.BOOKSMARK.list[n-1] = newMark;
+        settings.BOOKSMARK.list[n] = newMark;
         nName.value = "";
         nUrl.value = "";
         nUrlIcon.value = "";
@@ -143,8 +192,10 @@ function EditSC(n){
         nUseIcon.checked = false;
         SaveData();
         window.location.reload();
+        editMode = false;
+        btnRemove.style.display = 'none'
+        btnAceptModal.onclick = afterListener
     }
-    document.getElementById('modal').style.display = 'block';
 }
 function ActiveModal(){
     document.getElementById('modal').style.display = 'block';
@@ -184,6 +235,7 @@ function ActiveModal(){
         ChangeProp('--pos-clock-horizontal', settings.CLOCK.pos.h);
         let shortcutsList = document.getElementById('shortcuts');
         ConfigureSC(shortcutsList, settings);
+        clearModal()
 
         let inBlur = document.getElementById('blur');
         let inUseColor = document.getElementById('useColor');
@@ -263,9 +315,18 @@ function ActiveModal(){
             SaveData();
         });
 
-        btnCloseModal.addEventListener('click', e => modal.style.display='none');
-        btnCancelModal.addEventListener('click',e => modal.style.display='none');
-        btnAceptModal.addEventListener('click', e => {
+        btnCloseModal.addEventListener('click', _ => {
+            shortcutsList.style = "";
+            clearModal();
+            modal.style.display='none'
+        });
+        btnCancelModal.addEventListener('click', _ => {
+            shortcutsList.style = "";
+            clearModal();
+            modal.style.display='none'
+        });
+        btnAceptModal.addEventListener('click', _ => {
+            if (editMode) return;
             let newMark = {
                 name: nName.value,
                 url: nUrl.value,
@@ -274,23 +335,17 @@ function ActiveModal(){
                 useIcon: nUseIcon.checked
             };
             settings.BOOKSMARK.list.push(newMark);
-            AddSC(newMark);/*.oncontextmenu = () => EditSC(settings.BOOKSMARK.list.length);*/
             nName.value = "";
             nUrl.value = "";
             nUrlIcon.value = "";
             nUseName.checked = false;
             nUseIcon.checked = false;
+            SetAllBM()
             SaveData();
             modal.style.display = "none";
         });
-        if(settings.BOOKSMARK.list.length > 0){
-            let n = 0;
-            settings.BOOKSMARK.list.forEach(newMark => {
-                AddSC(newMark);/*.oncontextmenu = () => EditSC(n);*/
-                n++;
-            });
-        }
         window.addEventListener("mousemove", function(e) {
+            if (modal.style.display == 'block') return;
             switch(settings.BOOKSMARK.position){
                 case "b":
                     if(e.clientY >= (window.innerHeight - settings.BOOKSMARK.pointOfAction))
