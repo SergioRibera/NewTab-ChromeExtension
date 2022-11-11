@@ -286,7 +286,7 @@ function ActiveModal(){
         scAnim.value = settings.BOOKSMARK.timeAnimation;
         scDist.value = settings.BOOKSMARK.pointOfAction;
 
-        document.getElementById('mark-list').onclick = ActiveModal;
+        document.getElementById('add-mark').onclick = ActiveModal;
         scBlur.addEventListener('input', e => {
             settings.BOOKSMARK.blur = e.target.checked;
             if(settings.BOOKSMARK.blur)
